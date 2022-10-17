@@ -1,19 +1,18 @@
 from numbers import Number
 
-from open_feature import open_feature_api as api
-from open_feature.provider.no_op_provider import NoOpProvider
+from open_feature import open_feature as of
+from open_feature.provider.no_op import NoOpProvider
 
 
 def setup():
-    api.set_provider(NoOpProvider())
-    provider = api.get_provider()
+    provider = of.provider
     assert isinstance(provider, NoOpProvider)
 
 
 def test_should_get_boolean_flag_from_no_op(no_op_provider_client):
     # Given
     # When
-    flag = no_op_provider_client.get_boolean_details(key="Key", default_value=True)
+    flag = no_op_provider_client.get_boolean_details(key="Key", default=True)
     # Then
     assert flag is not None
     assert flag.value
@@ -23,7 +22,7 @@ def test_should_get_boolean_flag_from_no_op(no_op_provider_client):
 def test_should_get_number_flag_from_no_op(no_op_provider_client):
     # Given
     # When
-    flag = no_op_provider_client.get_number_details(key="Key", default_value=100)
+    flag = no_op_provider_client.get_number_details(key="Key", default=100)
     # Then
     assert flag is not None
     assert flag.value == 100
@@ -33,14 +32,14 @@ def test_should_get_number_flag_from_no_op(no_op_provider_client):
 def test_should_get_string_flag_from_no_op(no_op_provider_client):
     # Given
     # When
-    flag = no_op_provider_client.get_string_details(key="Key", default_value="String")
+    flag = no_op_provider_client.get_string_details(key="Key", default="String")
     # Then
     assert flag is not None
     assert flag.value == "String"
     assert isinstance(flag.value, str)
 
 
-def test_should_get_object_flag_from_no_op(no_op_provider_client):
+def test_should_get_dict_flag_from_no_op(no_op_provider_client):
     # Given
     return_value = {
         "String": "string",
@@ -48,8 +47,8 @@ def test_should_get_object_flag_from_no_op(no_op_provider_client):
         "Boolean": True,
     }
     # When
-    flag = no_op_provider_client.get_string_details(
-        key="Key", default_value=return_value
+    flag = no_op_provider_client.get_dict_details(
+        key="Key", default=return_value
     )
     # Then
     assert flag is not None

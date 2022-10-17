@@ -1,9 +1,23 @@
+import logging
 from abc import abstractmethod
+from dataclasses import dataclass
+from numbers import Number
+from typing import Union, Optional
 
-from open_feature.evaluation_context.evaluation_context import EvaluationContext
-from open_feature.flag_evaluation.flag_evaluation_details import FlagEvaluationDetails
-from open_feature.flag_evaluation.flag_type import FlagType
-from open_feature.hooks.hook_context import HookContext
+from open_feature.flag_evaluation import EvaluationContext, FlagEvaluationDetails, FlagType
+from open_feature.logger import default_log
+from open_feature.metadata import Metadata
+
+
+@dataclass
+class HookContext:
+    flag_key: str
+    flag_type: FlagType
+    default: Union[bool, str, Number, dict]
+    context: EvaluationContext
+    client_metadata: Optional[Metadata] = None
+    provider_metadata: Optional[Metadata] = None
+    log: logging.Logger = default_log
 
 
 class Hook:
@@ -14,9 +28,9 @@ class Hook:
 
         :param hook_context: Information about the particular flag evaluation
         :param hints: An immutable mapping of data for users to
-        communicate to the hooks.
+        communicate to the hook.
         :return: An EvaluationContext. It will be merged with the
-        EvaluationContext instances from other hooks, the client and API.
+        EvaluationContext instances from other hook, the client and API.
         """
         pass
 
@@ -30,7 +44,7 @@ class Hook:
         :param hook_context: Information about the particular flag evaluation
         :param details: Information about how the flag was resolved,
         including any resolved values.
-        :param hints: A mapping of data for users to communicate to the hooks.
+        :param hints: A mapping of data for users to communicate to the hook.
         """
         pass
 
@@ -41,7 +55,7 @@ class Hook:
 
         :param hook_context: Information about the particular flag evaluation
         :param exception: The exception that was thrown
-        :param hints: A mapping of data for users to communicate to the hooks.
+        :param hints: A mapping of data for users to communicate to the hook.
         """
         pass
 
@@ -52,7 +66,7 @@ class Hook:
         This will always run. Errors will be swallowed.
 
         :param hook_context: Information about the particular flag evaluation
-        :param hints: A mapping of data for users to communicate to the hooks.
+        :param hints: A mapping of data for users to communicate to the hook.
         """
         pass
 

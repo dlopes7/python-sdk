@@ -5,4 +5,4 @@ class FlagType(Enum):
     BOOLEAN = 1
     STRING = 2
     NUMBER = 3
-    OBJECT = 4
+    DICT = 4

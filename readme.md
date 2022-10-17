@@ -14,13 +14,14 @@ This library is intended to be used in server-side contexts and has not been eva
 
 ## Usage
 While Boolean provides the simplest introduction, we offer a variety of flag types.
+
 ```python
 # Depending on the flag type, use one of the methods below
 flag_key = "PROVIDER_FLAG"
-boolean_result = open_feature_client.get_boolean_value(key=flag_key,default_value=False)
-number_result = open_feature_client.get_number_value(key=flag_key,default_value=-1)
-string_result = open_feature_client.get_string_value(key=flag_key,default_value="")
-object_result = open_feature_client.get_object_value(key=flag_key,default_value={})
+boolean_result = open_feature_client.get_boolean_value(key=flag_key, default=False)
+number_result = open_feature_client.get_number_value(key=flag_key, default=-1)
+string_result = open_feature_client.get_string_value(key=flag_key, default="")
+object_result = open_feature_client.get_dict_value(key=flag_key, default={})
 ```
 Each provider class may have further setup required i.e. secret keys, environment variables etc
 
@@ -31,7 +32,7 @@ Each provider class may have further setup required i.e. secret keys, environmen
 ### Add it to your build
 Pip install
 ```bash
-pip install python-open-feature-sdk==0.0.1
+pip install python-open-feature-sdk
 ```
 
 requirements.txt
@@ -46,7 +47,7 @@ pip install requirements.txt
 In order to use the sdk there is some minor configuration. Follow the script below:
 
 ```python
-from open_feature import open_feature_api
+from open_feature import api
 
 open_feature_api.set_provider(NoOpProvider())
 open_feature_client = open_feature_api.get_client()

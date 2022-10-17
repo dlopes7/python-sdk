@@ -1,46 +1,54 @@
-from abc import abstractmethod
+from abc import abstractmethod, ABC
 from numbers import Number
+from typing import List, Optional
 
-from open_feature.evaluation_context.evaluation_context import EvaluationContext
+from open_feature.flag_evaluation import EvaluationContext
+from open_feature.hook.hook import Hook
+from open_feature.metadata import Metadata
 
 
-class AbstractProvider:
+class AbstractProvider(ABC):
+    @property
     @abstractmethod
-    def get_name(self) -> str:
-        pass
+    def metadata(self) -> Metadata:
+        raise NotImplementedError
+
+    @property
+    def hooks(self) -> List[Hook]:
+        return []
 
     @abstractmethod
-    def get_boolean_details(
+    def resolve_boolean_flag(
         self,
         key: str,
-        default_value: bool,
-        evaluation_context: EvaluationContext = EvaluationContext(),
+        default: bool,
+        context: Optional[EvaluationContext] = None,
     ):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
-    def get_string_details(
+    def resolve_string_flag(
         self,
         key: str,
-        default_value: str,
-        evaluation_context: EvaluationContext = EvaluationContext(),
+        default: str,
+        context: Optional[EvaluationContext] = None,
     ):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
-    def get_number_details(
+    def resolve_number_flag(
         self,
         key: str,
-        default_value: Number,
-        evaluation_context: EvaluationContext = EvaluationContext(),
+        default: Number,
+        context: Optional[EvaluationContext] = None,
     ):
-        pass
+        raise NotImplementedError
 
     @abstractmethod
-    def get_object_details(
+    def resolve_dict_flag(
         self,
         key: str,
-        default_value: dict,
-        evaluation_context: EvaluationContext = EvaluationContext(),
+        default: dict,
+        context: Optional[EvaluationContext] = None,
     ):
-        pass
+        raise NotImplementedError
