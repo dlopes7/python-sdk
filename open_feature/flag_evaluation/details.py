@@ -18,4 +18,5 @@ class FlagEvaluationDetails:
         self.value = value
         self.reason = reason
         self.error_code = error_code
+        self.error_message = error_message
         self.variant = variant
