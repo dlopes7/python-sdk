@@ -2,7 +2,7 @@ from abc import abstractmethod, ABC
 from numbers import Number
 from typing import List, Optional
 
-from open_feature.flag_evaluation import EvaluationContext
+from open_feature.flag_evaluation import EvaluationContext, FlagEvaluationDetails
 from open_feature.hook.hook import Hook
 from open_feature.metadata import Metadata
 
@@ -23,7 +23,7 @@ class AbstractProvider(ABC):
         key: str,
         default: bool,
         context: Optional[EvaluationContext] = None,
-    ):
+    ) -> FlagEvaluationDetails:
         raise NotImplementedError
 
     @abstractmethod
@@ -32,7 +32,7 @@ class AbstractProvider(ABC):
         key: str,
         default: str,
         context: Optional[EvaluationContext] = None,
-    ):
+    ) -> FlagEvaluationDetails:
         raise NotImplementedError
 
     @abstractmethod
@@ -41,7 +41,7 @@ class AbstractProvider(ABC):
         key: str,
         default: Number,
         context: Optional[EvaluationContext] = None,
-    ):
+    ) -> FlagEvaluationDetails:
         raise NotImplementedError
 
     @abstractmethod
@@ -50,5 +50,5 @@ class AbstractProvider(ABC):
         key: str,
         default: dict,
         context: Optional[EvaluationContext] = None,
-    ):
+    ) -> FlagEvaluationDetails:
         raise NotImplementedError
