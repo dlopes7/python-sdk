@@ -17,5 +17,5 @@ async def root():
 
 @app.post("/provider/storage")
 async def provider_flag(storage: dict):
-    open_feature.provider.storage = storage
+    CustomProvider().storage = storage
     return {"message": "Provider storage updated"}

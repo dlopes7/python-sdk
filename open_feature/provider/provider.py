@@ -1,3 +1,4 @@
+from __future__ import annotations
 from abc import abstractmethod, ABC
 from numbers import Number
 from typing import List, Optional
@@ -8,10 +9,19 @@ from open_feature.metadata import Metadata
 
 
 class AbstractProvider(ABC):
+    _instance: AbstractProvider
+
     @property
     @abstractmethod
     def metadata(self) -> Metadata:
         raise NotImplementedError
+
+    def __new__(cls, *args, **kwargs):
+        # Singleton, always return the same instance
+        # We need to use getattr because provider implementations don't need to declare _instance
+        if getattr(cls, "_instance", None) is None:
+            setattr(cls, "_instance", super(AbstractProvider, cls).__new__(cls, *args, **kwargs))
+        return cls._instance
 
     @property
     def hooks(self) -> List[Hook]:
